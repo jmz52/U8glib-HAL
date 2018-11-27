@@ -60,12 +60,8 @@ uint8_t u8g_com_stm32duino_hw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, v
       break;
 
     case U8G_COM_MSG_WRITE_SEQ:
-      register uint8_t *ptr = (uint8_t *)arg_ptr;
       SPI.beginTransaction(spiConfig);
-      while (arg_val > 0) {
-          SPI.send(*ptr++);
-          arg_val --;
-      }
+      SPI.send((uint8_t *)arg_ptr, arg_val);
       SPI.endTransaction();
       break;
   }
