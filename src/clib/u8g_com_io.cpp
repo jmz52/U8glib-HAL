@@ -287,6 +287,25 @@
     return digitalRead(internal_pin_number);
   }
 
+#elif defined(ARDUINO_ARCH_STM32)
+  #include "wiring.h"
+
+  void u8g_SetPinOutput(uint8_t internal_pin_number) {
+    pinMode(internal_pin_number, OUTPUT);
+  }
+
+  void u8g_SetPinInput(uint8_t internal_pin_number) {
+    pinMode(internal_pin_number, INPUT);
+  }
+
+  void u8g_SetPinLevel(uint8_t internal_pin_number, uint8_t level) {
+    digitalWrite(internal_pin_number, level);
+  }
+
+  uint8_t u8g_GetPinLevel(uint8_t internal_pin_number) {
+    return digitalRead(internal_pin_number);
+  }
+
 #elif defined(STM32F1) || defined(STM32F1xx) || defined(STM32F4) || defined(STM32F4xx)
 
   #include <Arduino.h>

@@ -55,13 +55,22 @@ uint8_t u8g_com_stm32duino_hw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, v
 
     case U8G_COM_MSG_WRITE_BYTE:
       SPI.beginTransaction(spiConfig);
-      SPI.send(arg_val);
+      #if defined(ARDUINO_ARCH_STM32)
+        SPI.transfer(arg_val);
+      #else
+        SPI.send(arg_val);
+      #endif
+      SPI.transfer(arg_val);
       SPI.endTransaction();
       break;
 
     case U8G_COM_MSG_WRITE_SEQ:
       SPI.beginTransaction(spiConfig);
-      SPI.send((uint8_t *)arg_ptr, arg_val);
+      #if defined(ARDUINO_ARCH_STM32)
+        SPI.transfer((uint8_t *)arg_ptr, arg_val);
+      #else
+        SPI.send((uint8_t *)arg_ptr, arg_val);
+      #endif
       SPI.endTransaction();
       break;
   }
